@@ -10,6 +10,7 @@
     to implement a Binary Search Tree data structure.
 */
 
+// Sruct holds key, data and pointers to other nodes
 typedef struct Node
 {
     int key;
@@ -177,6 +178,7 @@ void in_Order_Traversal(Node* root)
         }
 }
 
+/*void recursive function frees all nodes in the BST*/
 void free_BST(struct Node** root)
 {
     if(*root == NULL){return; }

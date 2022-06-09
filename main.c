@@ -21,6 +21,7 @@ int main()
     struct Node* root = NULL;   // root
     Obj o; // union holding pointers to functions
 
+    // do while loop a selection
     do
     {
         int data = 0;
@@ -76,7 +77,7 @@ int main()
     return 0;
 }
 
-
+/* int returning function takes user input and converts it to int to return*/
 int input_Line()
 {
     int sen = TRUE;
