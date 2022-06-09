@@ -9,6 +9,7 @@
     Purpose: Header file contains declarations of functions and Nodes that are used
     to implement a Binary Search Tree data structure.
 */
+
 typedef struct Node
 {
     int key;
@@ -25,6 +26,22 @@ void add_Node(Node** root,int data,int key);
 static int remove_Node(struct Node** root,int key);
 static void in_Order_Succersor(Node* root,int* key,int* tpdata);
 int get_Size(Node* root);
+void free_BST(struct Node** root);
+void in_Order_Traversal(Node* root);
+
+
+// Union contains pointers to functions
+typedef union Obj
+{
+
+    void (*add)(Node** root, int data, int key);
+    int (*remove_Node)(struct Node** root, int key);
+    int (*getSize)(Node* root);
+    void (*freeBST)(struct Node** root);
+    void (*inOrderTrav)(Node* root);
+} Obj;
+
+
 /* Static node returning function is allocates a node in the heap and returns
     its pointer */
 static Node* create_Node(int data,int key)
@@ -35,20 +52,25 @@ static Node* create_Node(int data,int key)
     return temp;
 }
 
+/*Int returning function, recursive iterates list and returns number
+    of nodes in BST*/
  int get_Size(Node* root)
 {
-    if(root == NULL){ return 0; }
-    // traverse left child and print it
+    if(root == NULL){return 0;}
+    int c = 0;
+    // left child traverse
     if(root->left != NULL)
         {
-            return get_Size(root->left) + 1;
+            c += get_Size(root->left);
         }
-        // Traverse to the right child print it
-    if (root->right != NULL)
+    c++; // inc Root
+    // right child traverse
+    if(root->right != NULL)
         {
-          return get_Size(root->right) + 1;
+            c += get_Size(root->right);
         }
-    return 1;
+    // return int done traverse
+        return c;
 }
 
 
@@ -141,6 +163,7 @@ static void in_Order_Succersor(Node* root,int* key,int* tpdata)
 /*void function iterates through BST and prints its data */
 void in_Order_Traversal(Node* root)
 {
+    if(root ==NULL){return;}
     // traverse left child and print it
     if(root->left != NULL)
         {
@@ -153,5 +176,25 @@ void in_Order_Traversal(Node* root)
           in_Order_Traversal(root->right);
         }
 }
+
+void free_BST(struct Node** root)
+{
+    if(*root == NULL){return; }
+    // Post Order traverse and free roots
+    // Traverse left
+    if((*root)->left != NULL)
+        {
+            free_BST(&((*root)->left));
+        }
+    // Traverse right
+    if((*root)->right != NULL)
+        {
+            free_BST(&((*root)->right));
+        }
+    // free root
+        free(*root);
+        *root = NULL;
+}
+
 
 #endif
