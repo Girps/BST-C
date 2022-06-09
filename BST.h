@@ -24,7 +24,7 @@ static Node* create_Node(int data,int key);
 void add_Node(Node** root,int data,int key);
 static int remove_Node(struct Node** root,int key);
 static void in_Order_Succersor(Node* root,int* key,int* tpdata);
-
+int get_Size(Node* root);
 /* Static node returning function is allocates a node in the heap and returns
     its pointer */
 static Node* create_Node(int data,int key)
@@ -34,6 +34,23 @@ static Node* create_Node(int data,int key)
     temp->key = key;
     return temp;
 }
+
+ int get_Size(Node* root)
+{
+    if(root == NULL){ return 0; }
+    // traverse left child and print it
+    if(root->left != NULL)
+        {
+            return get_Size(root->left) + 1;
+        }
+        // Traverse to the right child print it
+    if (root->right != NULL)
+        {
+          return get_Size(root->right) + 1;
+        }
+    return 1;
+}
+
 
 /* Recursive function binary inserts node in the BST*/
 void add_Node(Node** root,int data,int key)
@@ -86,7 +103,7 @@ static int remove_Node(struct Node** root,int key)
                     // Call inorder function and swap data
                     in_Order_Succersor(temp->right,&tpkey,&tpdata);
                     // have data but remove successor then swap
-                    remove_Node(temp,temp->key);
+                    remove_Node(&temp,tpkey);
                     // Node removed swap
                     (*root)->data = tpdata;
                     (*root)->key = tpkey;
@@ -115,6 +132,8 @@ static void in_Order_Succersor(Node* root,int* key,int* tpdata)
         }
     else // left is null return
         {
+            *key = root->key;
+            *tpdata = root->data;
             return *root;
         }
 }

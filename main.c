@@ -15,7 +15,9 @@ int main()
     add_Node(&root, 69, 10);
     add_Node(&root,7,25);
     add_Node(&root,10,28);
-    add_Node(&root,7,27);
+    add_Node(&root,7,24);
+    int size = get_Size(root);
+    printf("\nSize: %d\n",size);
     in_Order_Traversal(root);
     remove_Node(&root,25);
     in_Order_Traversal(root);
